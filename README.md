@@ -1,13 +1,8 @@
 ## TitleBar
-:star::tada: https://github.com/loperSeven/TitleBar ，满足各种日常使用的标题栏，不要让你的时间浪费在写标题栏上。
-
-## 序言
-android support library 推出的ToolBar拓展性很高，也是官方代替ActionBar的一个控件，ToolBar的优点在于可以配合其他控件写出爆炸性的UI交互，
-但是在日常开发中，我们用不到这些东西，也正是因为这样，才自己写了个TitleBar。
+:star::tada: https://github.com/xyggs/TitleBar ，满足各种日常使用的标题栏，不要让你的时间浪费在写标题栏上。
 
 ## 截图
 ![](https://github.com/loperSeven/TitleBar/blob/master/img/mv.gif)
-###### ps：MIUI系统默认的跳转和代码设置的跳转动画，刚好一样所以看不出来效果。
 
 ## 特性
 
@@ -22,22 +17,10 @@ android support library 推出的ToolBar拓展性很高，也是官方代替Acti
  * Gradle
    ```Java
    dependencies {
-            compile 'com.github.loperSeven:TitleBar:1.0.3'
+            implementation 'com.github.xyggs:TitleBar:1.0.1'
     }
     ```
- * maven
-   ```Java
-   <dependency>
-        <groupId>com.github.loperSeven</groupId>
-        <artifactId>TitleBar</artifactId>
-        <version>1.0.3</version>
-    </dependency>
-   ```
-   
- * 下载代码
-    * 下载layout依赖包，以module方式导入项目 
-    * 将layout中的TitleBar和res->values->attr中的TitleBar自定义属性copy到相应位置
-   
+  
 
 #### 全局配置
 ```Java
@@ -62,7 +45,7 @@ android support library 推出的ToolBar拓展性很高，也是官方代替Acti
 
 #### xml
 ```Java
- <com.loper7.layout.TitleBar
+ <com.xygg.library.TitleBar
         android:id="@+id/main_titleBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
