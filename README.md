@@ -9,7 +9,6 @@
 * 极简使用方法
 * 全局配置控件属性参数 （代码内>xml内>全局配置）
 * 返回按钮点击事件默认监听执行返回操作（不用每个界面去写finish，它帮你做到了），自定义监听覆盖默认返回操作
-* 标题显示模式人性化
 * 支持水波纹点击效果
 
 ## 使用
@@ -132,9 +131,5 @@ tBorderWidth | `dimension` | 设置下划线宽度
 tTitleEllipsize | `enum` | 设置标题过长时显示方式
 tTitleTextBold | `boolean` | 设置标题字体是否加粗
 
-
-## 写在最后
-
-喜欢请点star:star::kissing_heart:，意见、建议、bug、新的功能请提Issues，会不定期查看并更新，谢谢阅读。
 
 
