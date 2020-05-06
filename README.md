@@ -16,7 +16,7 @@
  * Gradle
    ```Java
    dependencies {
-            implementation 'com.github.xyggs:TitleBar:1.0.1'
+            implementation 'com.github.xyggs:TitleBar:1.0.0'
     }
     ```
   
