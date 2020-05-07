@@ -8,10 +8,11 @@
     tools:context=".MainActivity">
 
     <com.xygg.library.TitleBar
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:tCenterTitle="true"
         app:tTitleText="标题"
+        app:tBackImage="@mipmap/ic_back"
         />
 
 

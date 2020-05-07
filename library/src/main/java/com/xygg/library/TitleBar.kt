@@ -32,7 +32,7 @@ import androidx.core.content.ContextCompat
 class TitleBar : RelativeLayout {
     private val TAG = "TitleBar"
     private var mContext: Context
-    private var isCenterTitle = false
+    private var isCenterTitle = true
     private var isUseRipple = false
     private var titleTextBold = false
     private var isShowBorder = false
@@ -57,8 +57,6 @@ class TitleBar : RelativeLayout {
     private var borderColor = 0
     private var titleText: String? = null
     private var menuText: String? = null
-    private var onBackListener: OnBackListener? = null
-    private var onMenuListener: OnMenuListener? = null
     private var onTitleListener: OnTitleListener? = null
 
     constructor(context: Context) : super(context) {
@@ -184,8 +182,8 @@ class TitleBar : RelativeLayout {
             ivBack!!.visibility = View.GONE
         }
         ivBack!!.setOnClickListener {
-            if (onBackListener != null) {
-                onBackListener!!.onBackClick()
+            if (mListener != null) {
+                mListener!!.back.invoke()
             } else {
                 try {
                     val activity = activity
@@ -227,9 +225,12 @@ class TitleBar : RelativeLayout {
         }
         tvMenu!!.visibility =
             if (TextUtils.isEmpty(menuText) && menuImageRes == null) View.GONE else View.VISIBLE
-        tvMenu!!.setOnClickListener { if (onMenuListener != null) onMenuListener!!.onMenuClick() }
+        tvMenu!!.setOnClickListener {
+            mListener?.menu?.invoke()
+        }
         this.addView(tvMenu)
     }
+
 
     /**
      * 初始化标题
@@ -479,23 +480,6 @@ class TitleBar : RelativeLayout {
         activityExitAnim = 0
     }
 
-    /**
-     * 返回按钮点击监听
-     *
-     * @param onBackListener onBackListener
-     */
-    fun setOnBackListener(onBackListener: OnBackListener?) {
-        this.onBackListener = onBackListener
-    }
-
-    /**
-     * 菜单按钮点击监听
-     *
-     * @param onMenuListener onMenuListener
-     */
-    fun setOnMenuListener(onMenuListener: OnMenuListener?) {
-        this.onMenuListener = onMenuListener
-    }
 
     /**
      * 标题点击监听
@@ -514,10 +498,8 @@ class TitleBar : RelativeLayout {
     fun setUseRipple(isUseRipple: Boolean) {
         this.isUseRipple = isUseRipple
         if (isUseRipple) {
-            val tv = TypedValue()
-            mContext.theme.resolveAttribute(android.R.attr.selectableItemBackground, tv, true)
-            if (tvMenu != null) tvMenu!!.setBackgroundResource(tv.resourceId)
-            if (ivBack != null) ivBack!!.setBackgroundResource(tv.resourceId)
+            if (tvMenu != null) tvMenu!!.setBackgroundResource(R.drawable.control_background_40dp_material)
+            if (ivBack != null) ivBack!!.setBackgroundResource(R.drawable.control_background_40dp_material)
         } else {
             tvMenu!!.setBackgroundResource(0)
             ivBack!!.setBackgroundResource(0)
@@ -631,7 +613,7 @@ class TitleBar : RelativeLayout {
      * @return
      */
     private val isEnoughAvailableWidth: Boolean
-        private get() {
+        get() {
             val width = MeasureSpec.makeMeasureSpec(
                 0,
                 MeasureSpec.UNSPECIFIED
@@ -658,7 +640,7 @@ class TitleBar : RelativeLayout {
     private fun getWindowWidth(context: Context): Int {
         val wm = context
             .getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        return wm.defaultDisplay.width
+        return wm.defaultDisplay.width.toInt()
     }
 
     /**
@@ -706,17 +688,28 @@ class TitleBar : RelativeLayout {
         tv!!.setCompoundDrawables(drawable, null, null, null) //画在左边
     }
 
-    interface OnBackListener {
-        fun onBackClick()
-    }
-
-    interface OnMenuListener {
-        fun onMenuClick()
-    }
-
     interface OnTitleListener {
         fun onTitleClick()
     }
+
+    inner class ListenerBuilder {
+        internal var menu: () -> Unit = {}
+        internal var back: () -> Unit = {}
+        fun onMenuListener(action: () -> Unit){
+            menu = action
+        }
+        fun onBackListener(action: () -> Unit){
+            back = action
+        }
+
+    }
+
+    var mListener:ListenerBuilder ?= null
+    //提供方法供外部实现接口的回调监听
+    fun registerListener(listenerBuilder: ListenerBuilder.() -> Unit){
+        mListener = ListenerBuilder().also(listenerBuilder)
+    }
+
 
     /**
      * 全局配置的Class，对所有使用到的地方有效
